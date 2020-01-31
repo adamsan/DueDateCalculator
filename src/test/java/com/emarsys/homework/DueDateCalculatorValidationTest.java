@@ -9,7 +9,7 @@ import static java.time.DayOfWeek.*;
 import static java.time.LocalDate.now;
 import static java.time.temporal.TemporalAdjusters.next;
 
-public class DueDateCalculatorTest {
+public class DueDateCalculatorValidationTest {
 
     private DueDateCalculator sut;
 
