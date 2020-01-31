@@ -22,8 +22,15 @@ public class DueDateCalculator {
      */
     public LocalDateTime calculateDueDate(LocalDateTime submission, int turnaroundHours) {
         validateSubmission(submission);
+        validateTurnaroundHours(turnaroundHours);
         // Duration turnaroundD = Duration.of(turnaroundHours, ChronoUnit.HOURS);
         return null;
+    }
+
+    private void validateTurnaroundHours(int turnaroundHours) {
+        if (turnaroundHours < 0) {
+            throw new IllegalArgumentException("Turnaround hours can't be negative!");
+        }
     }
 
     private void validateSubmission(LocalDateTime submission) {

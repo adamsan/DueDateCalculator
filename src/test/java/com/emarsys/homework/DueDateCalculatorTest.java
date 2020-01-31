@@ -61,4 +61,10 @@ public class DueDateCalculatorTest {
         LocalDateTime t = now().with(next(MONDAY)).atTime(12, 25);
         sut.calculateDueDate(t, 0);
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void turnaroundHoursCantBeNegative() {
+        LocalDateTime t = now().with(next(MONDAY)).atTime(12, 25);
+        sut.calculateDueDate(t, -23);
+    }
 }
