@@ -26,8 +26,14 @@ public class DueDateCalculatorTest {
     }
 
     @Test(expected = RuntimeException.class)
-    public void issueCantSubmittedOnWeekend() {
+    public void issueCantSubmittedOnWeekendOnSaturday() {
         LocalDateTime saturday = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.SATURDAY)).atTime(12,30);
+        sut.calculateDueDate(saturday, 0);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void issueCantSubmittedOnWeekendOnSunday() {
+        LocalDateTime saturday = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.SUNDAY)).atTime(12,30);
         sut.calculateDueDate(saturday, 0);
     }
 }

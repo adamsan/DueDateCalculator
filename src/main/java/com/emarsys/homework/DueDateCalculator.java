@@ -2,6 +2,7 @@ package com.emarsys.homework;
 
 import java.time.DayOfWeek;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
@@ -19,13 +20,17 @@ public class DueDateCalculator {
      * @return the date/time when the issue is resolved
      */
     public LocalDateTime calculateDueDate(LocalDateTime submission, int turnaroundHours){
+        validateSubmission(submission);
+        // Duration turnaroundD = Duration.of(turnaroundHours, ChronoUnit.HOURS);
+        return null;
+    }
+
+    private void validateSubmission(LocalDateTime submission){
         if(submission == null){
             throw new IllegalArgumentException("Submission datetime can't be null!");
         }
-        if(submission.getDayOfWeek() == DayOfWeek.SATURDAY){
+        if(submission.getDayOfWeek() == DayOfWeek.SATURDAY || submission.getDayOfWeek() == DayOfWeek.SUNDAY){
             throw new RuntimeException("Issue can't be submitted on weekends.");
         }
-        // Duration turnaroundD = Duration.of(turnaroundHours, ChronoUnit.HOURS);
-        return null;
     }
 }
