@@ -2,13 +2,15 @@ package com.emarsys.homework;
 
 import java.time.LocalDateTime;
 
-import static com.emarsys.homework.DueDateCalculatorValidator.isWeekend;
-import static com.emarsys.homework.DueDateCalculatorValidator.isWorkingTime;
+import static com.emarsys.homework.DueDateCalculatorValidator.*;
 
 /**
- * Implements a due date calculator in an issue tracking system
+ * Implements a due date calculator in an issue tracking system.
  */
 public class DueDateCalculator {
+
+    private static final int WORK_WINDOW_HOURS = END_WORK_TIME.getHour() - (START_WORK_TIME).getHour(); // 8
+    private static final int WORK_WEEK_DAYS = 7 - WEEKEND_DAYS.size(); // 5
 
     private final DueDateCalculatorValidator validator;
 
@@ -16,7 +18,7 @@ public class DueDateCalculator {
         this(new DueDateCalculatorValidator());
     }
 
-    public DueDateCalculator(DueDateCalculatorValidator validator) {
+    public DueDateCalculator(final DueDateCalculatorValidator validator) {
         this.validator = validator;
     }
 
@@ -29,20 +31,23 @@ public class DueDateCalculator {
      * @param turnaroundHours Issue turnaround time in hours
      * @return the date/time when the issue is resolved
      */
-    public LocalDateTime calculateDueDate(LocalDateTime submission, int turnaroundHours) {
+    public LocalDateTime calculateDueDate(final LocalDateTime submission, final int turnaroundHours) {
         validator.validateSubmission(submission);
         validator.validateTurnaroundHours(turnaroundHours);
 
-        // optimisation: jump over whole weeks
-        int weeks = turnaroundHours / (5 * 8);
-        int remainingTurnaroundHours = turnaroundHours % (5 * 8);
+        return jumpOverWholeWeeksAndCalculateDueDate(submission, turnaroundHours);
+    }
 
+    private LocalDateTime jumpOverWholeWeeksAndCalculateDueDate(final LocalDateTime submission, final int turnaroundHours) {
+        // optimisation: jump over whole weeks
+        int weeks = turnaroundHours / (WORK_WEEK_DAYS * WORK_WINDOW_HOURS);
+        int remainingTurnaroundHours = turnaroundHours % (WORK_WEEK_DAYS * WORK_WINDOW_HOURS);
         var timeAfterJumpingOverWeeks = submission.plusWeeks(weeks);
 
         return calculateDueDateRecursion(timeAfterJumpingOverWeeks, remainingTurnaroundHours);
     }
 
-    private LocalDateTime calculateDueDateRecursion(LocalDateTime acc, int turnaroundHours) {
+    private LocalDateTime calculateDueDateRecursion(final LocalDateTime acc, final int turnaroundHours) {
         if (turnaroundHours == 0) {
             return acc;
         }
@@ -50,11 +55,11 @@ public class DueDateCalculator {
         if (isWorkingTime(nextHour)) {
             return calculateDueDateRecursion(nextHour, turnaroundHours - 1);
         }
-        var nextDay = acc.plusDays(1).minusHours(8).plusHours(1);
+        var nextDay = acc.plusDays(1).minusHours(WORK_WINDOW_HOURS).plusHours(1);
         if (isWorkingTime(nextDay) && !isWeekend(nextDay)) {
             return calculateDueDateRecursion(nextDay, turnaroundHours - 1);
         }
-        var nextWeek = acc.plusDays(3).minusHours(8).plusHours(1);
+        var nextWeek = acc.plusDays(1).plusDays(WEEKEND_DAYS.size()).minusHours(WORK_WINDOW_HOURS).plusHours(1);
         return calculateDueDateRecursion(nextWeek, turnaroundHours - 1);
     }
 }

@@ -14,22 +14,22 @@ public class DueDateCalculatorValidator {
     public static final LocalTime END_WORK_TIME = LocalTime.of(17, 0);
     public static final List<DayOfWeek> WEEKEND_DAYS = Arrays.asList(SATURDAY, SUNDAY);
 
-    public static boolean isWeekend(LocalDateTime submission) {
+    public static boolean isWeekend(final LocalDateTime submission) {
         return WEEKEND_DAYS.stream().anyMatch(day -> day == submission.getDayOfWeek());
     }
 
-    public static boolean isWorkingTime(LocalDateTime submission) {
+    public static boolean isWorkingTime(final LocalDateTime submission) {
         LocalTime submissionTime = submission.toLocalTime();
         return submissionTime.equals(START_WORK_TIME) || submissionTime.isAfter(START_WORK_TIME) && submissionTime.isBefore(END_WORK_TIME);
     }
 
-    public void validateTurnaroundHours(int turnaroundHours) {
+    public void validateTurnaroundHours(final int turnaroundHours) {
         if (turnaroundHours < 0) {
             throw new IllegalArgumentException("Turnaround hours can't be negative!");
         }
     }
 
-    public void validateSubmission(LocalDateTime submission) {
+    public void validateSubmission(final LocalDateTime submission) {
         if (submission == null) {
             throw new IllegalArgumentException("Submission datetime can't be null!");
         }
