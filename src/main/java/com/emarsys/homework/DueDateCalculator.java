@@ -2,6 +2,11 @@ package com.emarsys.homework;
 
 import java.time.LocalDateTime;
 
+import static com.emarsys.homework.DueDateCalculatorValidator.isWeekend;
+import static com.emarsys.homework.DueDateCalculatorValidator.isWorkingTime;
+import static java.time.temporal.ChronoUnit.DAYS;
+import static java.time.temporal.ChronoUnit.HOURS;
+
 /**
  * Implements a due date calculator in an issue tracking system
  */
@@ -29,7 +34,22 @@ public class DueDateCalculator {
     public LocalDateTime calculateDueDate(LocalDateTime submission, int turnaroundHours) {
         validator.validateSubmission(submission);
         validator.validateTurnaroundHours(turnaroundHours);
-        // Duration turnaroundD = Duration.of(turnaroundHours, ChronoUnit.HOURS);
-        return null;
+        return calculateDueDateRecursion(submission, turnaroundHours);
+    }
+
+    private LocalDateTime calculateDueDateRecursion(LocalDateTime acc, int turnaroundHours) {
+        if (turnaroundHours == 0) {
+            return acc;
+        }
+        var nextHour = acc.plus(1, HOURS);
+        if (isWorkingTime(nextHour)) {
+            return calculateDueDateRecursion(nextHour, turnaroundHours - 1);
+        }
+        var nextDay = acc.plus(1, DAYS).minus(8, HOURS).plus(1, HOURS);
+        if (isWorkingTime(nextDay) && !isWeekend(nextDay)) {
+            return calculateDueDateRecursion(nextDay, turnaroundHours - 1);
+        }
+        var nextWeek = acc.plus(3, DAYS).minus(8, HOURS).plus(1, HOURS);
+        return calculateDueDateRecursion(nextWeek, turnaroundHours - 1);
     }
 }
