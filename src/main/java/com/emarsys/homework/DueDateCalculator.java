@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 
 import static com.emarsys.homework.DueDateCalculatorValidator.isWeekend;
 import static com.emarsys.homework.DueDateCalculatorValidator.isWorkingTime;
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.HOURS;
 
 /**
  * Implements a due date calculator in an issue tracking system
@@ -48,15 +46,15 @@ public class DueDateCalculator {
         if (turnaroundHours == 0) {
             return acc;
         }
-        var nextHour = acc.plus(1, HOURS);
+        var nextHour = acc.plusHours(1);
         if (isWorkingTime(nextHour)) {
             return calculateDueDateRecursion(nextHour, turnaroundHours - 1);
         }
-        var nextDay = acc.plus(1, DAYS).minus(8, HOURS).plus(1, HOURS);
+        var nextDay = acc.plusDays(1).minusHours(8).plusHours(1);
         if (isWorkingTime(nextDay) && !isWeekend(nextDay)) {
             return calculateDueDateRecursion(nextDay, turnaroundHours - 1);
         }
-        var nextWeek = acc.plus(3, DAYS).minus(8, HOURS).plus(1, HOURS);
+        var nextWeek = acc.plusDays(3).minusHours(8).plusHours(1);
         return calculateDueDateRecursion(nextWeek, turnaroundHours - 1);
     }
 }
