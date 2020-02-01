@@ -31,7 +31,7 @@ public class DueDateCalculatorParametrizedTest {
     private DueDateCalculator sut;
 
     /**
-     * Able to parse string with format is including the day, example: "2020-02-01 Sat 11:25"
+     * Able to parse string with format including the day, example: "2020-02-01 Sat 11:25"
      */
     private static LocalDateTime parse(String dateTime) {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("y-MM-dd E H:mm", Locale.ENGLISH);
@@ -44,7 +44,7 @@ public class DueDateCalculatorParametrizedTest {
                 {"2020-02-03 Mon 10:22", 0, "2020-02-03 Mon 10:22"},
                 {"2020-02-03 Mon 10:22", 1, "2020-02-03 Mon 11:22"},
                 {"2020-02-03 Mon 10:22", 4, "2020-02-03 Mon 14:22"},
-                {"2020-02-04 Tue 09:00", 8, "2020-02-04 Tue 17:00"}, // Bug found
+                {"2020-02-04 Tue 09:00", 8, "2020-02-04 Tue 17:00"},
                 {"2020-02-06 Thu 10:22", 5 * 8, "2020-02-13 Thu 10:22"},
                 {"2020-02-03 Mon 10:22", 5 * 8 + 5, "2020-02-10 Mon 15:22"},
         });

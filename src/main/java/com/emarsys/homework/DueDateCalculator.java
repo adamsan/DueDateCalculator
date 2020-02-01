@@ -52,7 +52,7 @@ public class DueDateCalculator {
             return acc;
         }
         var nextHour = acc.plusHours(1);
-        if (isWorkingTime(nextHour)) {
+        if (isWorkingTime(nextHour) || nextHour.toLocalTime() == END_WORK_TIME) {
             return calculateDueDateRecursion(nextHour, turnaroundHours - 1);
         }
         var nextDay = acc.plusDays(1).minusHours(WORK_WINDOW_HOURS).plusHours(1);
