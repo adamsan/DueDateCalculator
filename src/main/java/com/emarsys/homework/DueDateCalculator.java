@@ -34,7 +34,14 @@ public class DueDateCalculator {
     public LocalDateTime calculateDueDate(LocalDateTime submission, int turnaroundHours) {
         validator.validateSubmission(submission);
         validator.validateTurnaroundHours(turnaroundHours);
-        return calculateDueDateRecursion(submission, turnaroundHours);
+
+        // optimisation: jump over whole weeks
+        int weeks = turnaroundHours / (5 * 8);
+        int remainingTurnaroundHours = turnaroundHours % (5 * 8);
+
+        var timeAfterJumpingOverWeeks = submission.plusWeeks(weeks);
+
+        return calculateDueDateRecursion(timeAfterJumpingOverWeeks, remainingTurnaroundHours);
     }
 
     private LocalDateTime calculateDueDateRecursion(LocalDateTime acc, int turnaroundHours) {
