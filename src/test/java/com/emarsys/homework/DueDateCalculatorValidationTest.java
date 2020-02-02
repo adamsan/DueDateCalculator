@@ -11,12 +11,12 @@ import static java.time.temporal.TemporalAdjusters.next;
 
 public class DueDateCalculatorValidationTest {
 
-    private DueDateCalculator sut;
+    private IDueDateCalculator sut;
 
     @Before
     public void setup() {
         // Given sut (System Under Test) is DueDayCalculator
-        sut = new DueDateCalculator();
+        sut = new GeneralDueDateCalculator();
     }
 
     @Test(expected = IllegalArgumentException.class)

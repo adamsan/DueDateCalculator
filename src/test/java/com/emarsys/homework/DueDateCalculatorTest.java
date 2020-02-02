@@ -11,12 +11,12 @@ import static org.junit.Assert.assertEquals;
 
 public class DueDateCalculatorTest {
 
-    private DueDateCalculator sut;
+    private IDueDateCalculator sut;
 
     @Before
     public void setUp() throws Exception {
         // Given sut (System Under Test) is DueDayCalculator
-        sut = new DueDateCalculator();
+        sut = new GeneralDueDateCalculator();
     }
 
     @Test
