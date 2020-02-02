@@ -11,7 +11,7 @@ import static java.time.temporal.TemporalAdjusters.next;
 
 public class DueDateCalculatorValidationTest {
 
-    private IDueDateCalculator sut;
+    private DueDateCalculator sut;
 
     @Before
     public void setup() {

@@ -2,7 +2,7 @@ package com.emarsys.homework;
 
 import java.time.LocalDateTime;
 
-public interface IDueDateCalculator {
+public interface DueDateCalculator {
     /**
      * Working hours are from 9AM to 5PM on every working day, Monday to Friday.
      * A problem can only be reported during working hours.

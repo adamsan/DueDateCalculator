@@ -10,7 +10,7 @@ import java.util.List;
 
 import static java.time.DayOfWeek.*;
 
-class SimpleWorkCalendar {
+class SimpleWorkCalendar implements WorkCalendar {
     private static final List<DayOfWeek> WEEKEND_DAYS = Arrays.asList(SATURDAY, SUNDAY);
     private static final LocalTime START_WORK_TIME = LocalTime.of(9, 0);
     private static final LocalTime END_WORK_TIME = LocalTime.of(17, 0);
@@ -24,10 +24,12 @@ class SimpleWorkCalendar {
         return submissionTime.equals(START_WORK_TIME) || submissionTime.isAfter(START_WORK_TIME) && submissionTime.isBefore(END_WORK_TIME);
     }
 
+    @Override
     public Duration howMuchWorkCanBeDoneToday(LocalDateTime submission) {
         return Duration.between(submission.toLocalTime(), END_WORK_TIME);
     }
 
+    @Override
     public LocalDateTime nextAvailableWorkingDateTime(LocalDateTime submission) {
         if (isWeekend(submission)) {
             return getNextMondayStart(submission);
@@ -49,6 +51,7 @@ class SimpleWorkCalendar {
         return submission.with(TemporalAdjusters.next(MONDAY)).withHour(START_WORK_TIME.getHour()).withMinute(START_WORK_TIME.getMinute());
     }
 
+    @Override
     public void validate(LocalDateTime submission) {
         if (submission == null) {
             throw new IllegalArgumentException("Submission datetime can't be null!");
@@ -61,6 +64,7 @@ class SimpleWorkCalendar {
         }
     }
 
+    @Override
     public void validate(Duration turnaround) {
         if (turnaround.isNegative()) {
             throw new IllegalArgumentException("Turnaround hours can't be negative!");

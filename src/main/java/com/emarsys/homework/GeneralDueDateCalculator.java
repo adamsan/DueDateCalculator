@@ -6,14 +6,14 @@ import java.time.LocalDateTime;
 /**
  * Implements a due date calculator in an issue tracking system.
  */
-public class GeneralDueDateCalculator implements IDueDateCalculator {
-    private final SimpleWorkCalendar calendar;
+public class GeneralDueDateCalculator implements DueDateCalculator {
+    private final WorkCalendar calendar;
 
     public GeneralDueDateCalculator() {
         this(new SimpleWorkCalendar());
     }
 
-    public GeneralDueDateCalculator(SimpleWorkCalendar calendar) {
+    public GeneralDueDateCalculator(WorkCalendar calendar) {
         this.calendar = calendar;
     }
 

@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 
 public class DueDateCalculatorTest {
 
-    private IDueDateCalculator sut;
+    private DueDateCalculator sut;
 
     @Before
     public void setUp() throws Exception {
