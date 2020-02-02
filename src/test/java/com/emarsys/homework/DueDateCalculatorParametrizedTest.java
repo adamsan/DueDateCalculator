@@ -28,7 +28,7 @@ public class DueDateCalculatorParametrizedTest {
     public String expectedDueDateTime;
 
 
-    private DueDateCalculator sut;
+    private IDueDateCalculator sut;
 
     /**
      * Able to parse string with format including the day, example: "2020-02-01 Sat 11:25"
@@ -51,8 +51,8 @@ public class DueDateCalculatorParametrizedTest {
     }
 
     @Before
-    public void setUp() throws Exception {
-        sut = new DueDateCalculator();
+    public void setUp() {
+        sut = new GeneralDueDateCalculator();//new DueDateCalculator();
     }
 
     @Test

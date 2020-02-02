@@ -7,7 +7,7 @@ import static com.emarsys.homework.DueDateCalculatorValidator.*;
 /**
  * Implements a due date calculator in an issue tracking system.
  */
-public class DueDateCalculator {
+public class DueDateCalculator implements IDueDateCalculator {
 
     private static final int WORK_WINDOW_HOURS = END_WORK_TIME.getHour() - (START_WORK_TIME).getHour(); // 8
     private static final int WORK_WEEK_DAYS = 7 - WEEKEND_DAYS.size(); // 5
@@ -22,15 +22,7 @@ public class DueDateCalculator {
         this.validator = validator;
     }
 
-    /**
-     * Working hours are from 9AM to 5PM on every working day, Monday to Friday.
-     * A problem can only be reported during working hours.
-     * If a problem was reported at 2:12PM on Tuesday and the turnaround time is 16 hours, then it is due by 2:12PM on Thursday.
-     *
-     * @param submission      Issue submission date/time
-     * @param turnaroundHours Issue turnaround time in hours
-     * @return the date/time when the issue is resolved
-     */
+    @Override
     public LocalDateTime calculateDueDate(final LocalDateTime submission, final int turnaroundHours) {
         validator.validateSubmission(submission);
         validator.validateTurnaroundHours(turnaroundHours);
