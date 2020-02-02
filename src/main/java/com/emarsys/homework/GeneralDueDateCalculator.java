@@ -13,17 +13,17 @@ public class GeneralDueDateCalculator implements DueDateCalculator {
         this(new SimpleWorkCalendar());
     }
 
-    public GeneralDueDateCalculator(WorkCalendar calendar) {
+    public GeneralDueDateCalculator(final WorkCalendar calendar) {
         this.calendar = calendar;
     }
 
     @Override
-    public LocalDateTime calculateDueDate(LocalDateTime submission, int turnaroundHours) {
+    public LocalDateTime calculateDueDate(final LocalDateTime submission, final int turnaroundHours) {
         return calculateDueDate(submission, Duration.ofHours(turnaroundHours));
     }
 
 
-    public LocalDateTime calculateDueDate(LocalDateTime submission, Duration turnaround) {
+    public LocalDateTime calculateDueDate(final LocalDateTime submission, final Duration turnaround) {
         calendar.validate(submission);
         calendar.validate(turnaround);
 

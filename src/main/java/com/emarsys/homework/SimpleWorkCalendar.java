@@ -31,12 +31,12 @@ public class SimpleWorkCalendar implements WorkCalendar {
     }
 
     @Override
-    public Duration howMuchWorkCanBeDoneToday(LocalDateTime submission) {
+    public Duration howMuchWorkCanBeDoneToday(final LocalDateTime submission) {
         return Duration.between(submission.toLocalTime(), END_WORK_TIME);
     }
 
     @Override
-    public LocalDateTime nextAvailableWorkingDateTime(LocalDateTime submission) {
+    public LocalDateTime nextAvailableWorkingDateTime(final LocalDateTime submission) {
         if (isWeekend(submission)) {
             return getNextMondayStart(submission);
         }
@@ -49,16 +49,16 @@ public class SimpleWorkCalendar implements WorkCalendar {
         return submission;
     }
 
-    private LocalDateTime getNextDayStart(LocalDateTime submission) {
+    private LocalDateTime getNextDayStart(final LocalDateTime submission) {
         return submission.plusDays(1).withHour(START_WORK_TIME.getHour()).withMinute(START_WORK_TIME.getMinute());
     }
 
-    private LocalDateTime getNextMondayStart(LocalDateTime submission) {
+    private LocalDateTime getNextMondayStart(final LocalDateTime submission) {
         return submission.with(TemporalAdjusters.next(MONDAY)).withHour(START_WORK_TIME.getHour()).withMinute(START_WORK_TIME.getMinute());
     }
 
     @Override
-    public void validate(LocalDateTime submission) {
+    public void validate(final LocalDateTime submission) {
         if (submission == null) {
             throw new IllegalArgumentException("Submission datetime can't be null!");
         }
@@ -71,11 +71,9 @@ public class SimpleWorkCalendar implements WorkCalendar {
     }
 
     @Override
-    public void validate(Duration turnaround) {
+    public void validate(final Duration turnaround) {
         if (turnaround.isNegative()) {
             throw new IllegalArgumentException("Turnaround hours can't be negative!");
         }
     }
-
-
 }
