@@ -10,7 +10,13 @@ import java.util.List;
 
 import static java.time.DayOfWeek.*;
 
-class SimpleWorkCalendar implements WorkCalendar {
+/**
+ * Working hours are from 9AM to 5PM on every working day, Monday to Friday.
+ * A problem can only be reported during working hours.
+ * If a problem was reported at 2:12PM on Tuesday and the turnaround time is 16 hours, then it is due by 2:12PM on Thursday.
+ * Holidays, working Saturdays are ignored.
+ */
+public class SimpleWorkCalendar implements WorkCalendar {
     private static final List<DayOfWeek> WEEKEND_DAYS = Arrays.asList(SATURDAY, SUNDAY);
     private static final LocalTime START_WORK_TIME = LocalTime.of(9, 0);
     private static final LocalTime END_WORK_TIME = LocalTime.of(17, 0);
