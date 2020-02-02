@@ -3,6 +3,9 @@ package com.emarsys.homework;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+/**
+ * Implements a due date calculator in an issue tracking system.
+ */
 public class GeneralDueDateCalculator implements IDueDateCalculator {
     private final SimpleWorkCalendar calendar;
 
