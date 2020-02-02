@@ -21,6 +21,9 @@ public class GeneralDueDateCalculator implements IDueDateCalculator {
 
 
     public LocalDateTime calculateDueDate(LocalDateTime submission, Duration turnaround) {
+        calendar.validate(submission);
+        calendar.validate(turnaround);
+
         if (turnaround.isZero()) {
             return submission;
         }
@@ -36,4 +39,5 @@ public class GeneralDueDateCalculator implements IDueDateCalculator {
             return calculateDueDate(nextWorkWindow, remainingTurnaround);
         }
     }
+
 }
