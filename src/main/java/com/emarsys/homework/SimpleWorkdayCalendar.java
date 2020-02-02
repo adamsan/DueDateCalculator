@@ -11,7 +11,7 @@ import java.util.List;
 import static java.time.DayOfWeek.*;
 
 class SimpleWorkCalendar {
-    public static final List<DayOfWeek> WEEKEND_DAYS = Arrays.asList(SATURDAY, SUNDAY);
+    private static final List<DayOfWeek> WEEKEND_DAYS = Arrays.asList(SATURDAY, SUNDAY);
     private static final LocalTime START_WORK_TIME = LocalTime.of(9, 0);
     private static final LocalTime END_WORK_TIME = LocalTime.of(17, 0);
 
@@ -29,17 +29,24 @@ class SimpleWorkCalendar {
     }
 
     public LocalDateTime nextAvailableWorkingDateTime(LocalDateTime submission) {
-        var day = submission.getDayOfWeek();
-        if (day == SATURDAY || day == SUNDAY) {
-            return submission.with(TemporalAdjusters.next(MONDAY)).withHour(START_WORK_TIME.getHour()).withMinute(START_WORK_TIME.getMinute());
+        if (isWeekend(submission)) {
+            return getNextMondayStart(submission);
         }
         if (submission.toLocalTime().equals(END_WORK_TIME) || submission.toLocalTime().isAfter(END_WORK_TIME)) {
-            if (day == FRIDAY) {
-                return submission.with(TemporalAdjusters.next(MONDAY)).withHour(START_WORK_TIME.getHour()).withMinute(START_WORK_TIME.getMinute());
+            if (submission.getDayOfWeek() == FRIDAY) {
+                return getNextMondayStart(submission);
             }
-            return submission.plusDays(1).withHour(START_WORK_TIME.getHour()).withMinute(START_WORK_TIME.getMinute());
+            return getNextDayStart(submission);
         }
         return submission;
+    }
+
+    private LocalDateTime getNextDayStart(LocalDateTime submission) {
+        return submission.plusDays(1).withHour(START_WORK_TIME.getHour()).withMinute(START_WORK_TIME.getMinute());
+    }
+
+    private LocalDateTime getNextMondayStart(LocalDateTime submission) {
+        return submission.with(TemporalAdjusters.next(MONDAY)).withHour(START_WORK_TIME.getHour()).withMinute(START_WORK_TIME.getMinute());
     }
 
     public void validate(LocalDateTime submission) {
